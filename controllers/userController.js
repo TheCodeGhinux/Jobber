@@ -4,10 +4,16 @@ import { StatusCodes } from 'http-status-codes';
 
 const register = async (req, res, next) => {
 
+  const {name, email, password} = req.body
+
+  if(!name, !email, !password) {
+    throw new Error('Please provide all values')
+  }
+
   const userr = await User.create(req.body);
   res.status(StatusCodes.CREATED).json(userr);
   console.log(userr);
-  
+
 }
 
 const login = async (req, res) => {
