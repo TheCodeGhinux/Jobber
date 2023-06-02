@@ -1,12 +1,7 @@
 import User from "../models/userModel.js"
 import { StatusCodes } from 'http-status-codes';
+import { BadRequestError, NotFoundError } from '../errors/index.js'
 
-class CustomApiError extends Error {
-  constructor(message) {
-    super(message)
-    this.StatusCode = StatusCodes.BAD_REQUEST
-  }
-}
 
 
 const register = async (req, res, next) => {
@@ -14,7 +9,7 @@ const register = async (req, res, next) => {
   const {name, email, password} = req.body
 
   if(!name, !email, !password) {
-    throw new CustomApiError('Please provide all values')
+    throw new BadRequestError('Please provide all values')
   }
 
   const userr = await User.create(req.body);
