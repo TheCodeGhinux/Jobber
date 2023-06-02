@@ -12,9 +12,15 @@ const register = async (req, res, next) => {
     throw new BadRequestError('Please provide all values')
   }
 
-  const userr = await User.create(req.body);
-  res.status(StatusCodes.CREATED).json(userr);
-  console.log(userr);
+  const emailExists = await User.findOne({email})
+  if (emailExists) {
+    throw new BadRequestError('Email already registered, try to login')
+  }
+
+  const user = await User.create({ name, email, password});
+  user.createJWT()
+  res.status(StatusCodes.CREATED).json(user);
+  console.log(user);
 
 }
 
